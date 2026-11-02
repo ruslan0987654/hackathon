@@ -23,13 +23,13 @@ export default function Header({ dateRange, onDateRangeChange, isLightMode, onTo
             <option value="30">Son 30 gün</option>
             <option value="90">Son 90 gün</option>
           </select>
-          <ChevronDown size={14} />
+          <ChevronDown size={14} /> 
         </label>
         <button className="icon-button theme-toggle" aria-label={isLightMode ? "Dark mode" : "Light mode"} onClick={onToggleTheme}>
           {isLightMode ? <MoonStar size={18} /> : <SunMedium size={18} />}
         </button>
         <button className="icon-button notification-button" aria-label="Bildirişlər"><Bell size={18} /><i /></button>
-        <div className="user-profile"><div className="user-avatar">JD</div><div><strong>Analitik</strong><span>Demo istifadəçi</span></div></div>
+       
       </div>
     </header>
   );
