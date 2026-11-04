@@ -1,0 +1,11 @@
+.env
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# Model faylları və təlim cədvəlləri Git-ə daxil edilmir (training ilə yenidən yaradılır)
+app/models/artifacts/*.joblib
+app/models/artifacts/metadata.json
+datasets/*.csv
+datasets/*.csv.gz

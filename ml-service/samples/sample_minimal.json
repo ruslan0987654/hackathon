@@ -1,0 +1,10 @@
+{
+ "wellId": "SYN-DEMO-MIN",
+ "history": [
+  {
+   "timestamp": "2026-11-03T00:00:00Z",
+   "production": 120.5,
+   "pressure": 180.0
+  }
+ ]
+}
