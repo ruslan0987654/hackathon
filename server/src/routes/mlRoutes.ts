@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import type { Pool } from 'pg';
-import { MlController } from '../controllers/mlController';
-import { mlClientFromEnv } from '../ml/mlClient';
-import { MlAnalysisService } from '../ml/mlService';
+import { MlController } from '../controllers/mlController.js';
+import { mlClientFromEnv } from '../ml/mlClient.js';
+import { MlAnalysisService } from '../ml/mlService.js';
 
 /**
  * İstifadə (mövcud app.ts / server.ts daxilində):

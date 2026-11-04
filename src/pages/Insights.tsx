@@ -4,10 +4,17 @@ import Panel from "../components/Panel";
 import { wells } from "../data/mockData";
 import StatusBadge from "../components/StatusBadge";
 
-export default function Insights() {
+export default function Insights({ searchQuery = "" }: { searchQuery?: string }) {
+  const normalizedQuery = searchQuery.trim().toLowerCase();
   const risky = wells.filter((well) => well.status === "Riskli");
   const watch = wells.filter((well) => well.status === "Diqqət");
-  return (
+  const results = [...risky, ...watch].filter((well) => {
+    if (!normalizedQuery) return true;
+    const haystack = [well.id, well.field, well.region, well.status].join(" ").toLowerCase();
+    return haystack.includes(normalizedQuery);
+  });
+
+  return ( 
     <>
       <PageTitle title="Ağıllı analiz" description="Demo modelin anomaliya aşkarlama və hasilat proqnozu nəticələri." action={<span className="model-chip"><BrainCircuit size={15}/> Model: Demo ML v1</span>} />
       <div className="insight-hero">
@@ -20,8 +27,8 @@ export default function Insights() {
         <div className="insight-mini"><div className="mini-icon mini-orange"><TrendingUp/></div><span>Diqqət tələb edən</span><strong>9</strong><small>Göstəriciləri izlənilməlidir</small></div>
         <div className="insight-mini"><div className="mini-icon mini-green"><CheckCircle2/></div><span>Normal intervalda</span><strong>112</strong><small>Hazırda stabil görünür</small></div>
       </div>
-      <Panel title="Modelin müəyyən etdiyi quyular" subtitle="Nümunəvi anomaliya siyahısı">
-        <div className="insight-list">{[...risky, ...watch].map((well) => <div className="insight-row" key={well.id}><div className="insight-well-icon"><CircleAlert size={17}/></div><div className="insight-well-copy"><strong>{well.id} <span>· {well.field}</span></strong><p>{well.change < -15 ? `Hasilatda ${Math.abs(well.change)}% azalma müşahidə olunur.` : "Hasilat göstəricisi orta intervaldan aşağıdır."} Təzyiq və temperatur göstəricilərinin izlənməsi tövsiyə edilir.</p></div><StatusBadge status={well.status}/></div>)}</div>
+      <Panel title={normalizedQuery ? `Axtarış nəticələri: “${searchQuery}”` : "Modelin müəyyən etdiyi quyular"} subtitle={normalizedQuery ? `${results.length} uyğun quyu tapıldı` : "Nümunəvi anomaliya siyahısı"}>
+        <div className="insight-list">{results.length > 0 ? results.map((well) => <div className="insight-row" key={well.id}><div className="insight-well-icon"><CircleAlert size={17}/></div><div className="insight-well-copy"><strong>{well.id} <span>· {well.field}</span></strong><p>{well.change < -15 ? `Hasilatda ${Math.abs(well.change)}% azalma müşahidə olunur.` : "Hasilat göstəricisi orta intervaldan aşağıdır."} Təzyiq və temperatur göstəricilərinin izlənməsi tövsiyə edilir.</p></div><StatusBadge status={well.status}/></div>) : <div className="empty-state">Bu axtarışa uyğun nəticə tapılmadı.</div>}</div>
       </Panel>
     </>
   );

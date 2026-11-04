@@ -1,6 +1,6 @@
 import type { Pool } from 'pg';
-import { MlClient } from './mlClient';
-import type { MlFullAnalysis, MlTimeRecord, MlWellRequest } from './mlTypes';
+import { MlClient } from './mlClient.js';
+import type { MlFullAnalysis, MlTimeRecord, MlWellRequest } from './mlTypes.js';
 
 /**
  * Express servis qatı: PostgreSQL-dən quyu məlumatını oxuyur -> ML servisinə göndərir -> nəticəni saxlayır.

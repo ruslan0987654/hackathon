@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import { MlServiceError, MlClient } from '../ml/mlClient';
-import { MlAnalysisService, WellNotFoundError } from '../ml/mlService';
+import { MlServiceError, MlClient } from '../ml/mlClient.js';
+import { MlAnalysisService, WellNotFoundError } from '../ml/mlService.js';
 
 function sendError(res: Response, err: unknown): void {
   if (err instanceof WellNotFoundError) {
@@ -11,13 +11,13 @@ function sendError(res: Response, err: unknown): void {
     } else if (err.status === 422) {
       res.status(422).json({ error: 'ML servisi sorğunu rədd etdi', detail: err.detail });
     } else {
-      // 401/403 daxili konfiqurasiya xətasıdır (API açarı); detalları istifadəçiyə göstərmirik
       console.error('[ML] gözlənilməz cavab:', err.status, err.detail);
       res.status(502).json({ error: 'ML servisi ilə əlaqə xətası' });
     }
   } else {
     console.error('[ML] xəta:', err);
-    res.status(500).json({ error: (err as Error).message ?? 'Daxili xəta' });
+    const message = err instanceof Error ? err.message : 'Daxili xəta';
+    res.status(500).json({ error: message });
   }
 }
 
@@ -37,9 +37,14 @@ export class MlController {
 
   analyzeWell = async (req: Request, res: Response) => {
     try {
+      const wellId = Array.isArray(req.params.wellId) ? req.params.wellId[0] : req.params.wellId;
+      if (!wellId) {
+        res.status(400).json({ error: 'Well id is required' });
+        return;
+      }
       const days = Math.min(Math.max(Number(req.query.days ?? 120) || 120, 7), 730);
       const save = req.query.save !== 'false';
-      res.json(await this.service.analyzeWell(req.params.wellId, { days, save }));
+      res.json(await this.service.analyzeWell(wellId, { days, save }));
     } catch (e) {
       sendError(res, e);
     }
@@ -60,7 +65,12 @@ export class MlController {
 
   history = async (req: Request, res: Response) => {
     try {
-      res.json(await this.service.history(req.params.wellId, Number(req.query.limit ?? 30)));
+      const wellId = Array.isArray(req.params.wellId) ? req.params.wellId[0] : req.params.wellId;
+      if (!wellId) {
+        res.status(400).json({ error: 'Well id is required' });
+        return;
+      }
+      res.json(await this.service.history(wellId, Number(req.query.limit ?? 30)));
     } catch (e) {
       sendError(res, e);
     }

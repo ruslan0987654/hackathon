@@ -12,14 +12,15 @@ export default function App() {
   const [activePage, setActivePage] = useState<PageKey>("dashboard");
   const [dateRange, setDateRange] = useState("30");
   const [isLightMode, setIsLightMode] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const renderPage = () => {
     switch (activePage) {
-      case "wells": return <Wells />;
-      case "analytics": return <Analytics />;
-      case "insights": return <Insights />;
-      case "alerts": return <Alerts />;
-      default: return <Dashboard onNavigate={setActivePage} />;
+      case "wells": return <Wells searchQuery={searchQuery} onSearchChange={setSearchQuery} />;
+      case "analytics": return <Analytics searchQuery={searchQuery} />;
+      case "insights": return <Insights searchQuery={searchQuery} />;
+      case "alerts": return <Alerts searchQuery={searchQuery} onSearchChange={setSearchQuery} />;
+      default: return <Dashboard searchQuery={searchQuery} onNavigate={setActivePage} />;
     }
   };
 
@@ -28,6 +29,9 @@ export default function App() {
       <Sidebar activePage={activePage} onNavigate={setActivePage} />
       <main className="main-content">
         <Header
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          onSearchSubmit={() => setActivePage("wells")}
           dateRange={dateRange}
           onDateRangeChange={setDateRange}
           isLightMode={isLightMode}

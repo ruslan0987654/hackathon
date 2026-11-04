@@ -1,4 +1,4 @@
-import type { MlBatchResponse, MlFullAnalysis, MlHealth, MlWellRequest } from './mlTypes';
+import type { MlBatchResponse, MlFullAnalysis, MlHealth, MlWellRequest } from './mlTypes.js';
 
 /** ML servisi ilə əlaqə xətası. `status` HTTP kodudur (şəbəkə/timeout xətasında 0). */
 export class MlServiceError extends Error {
@@ -58,12 +58,16 @@ export class MlClient {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), this.timeoutMs);
       try {
-        const res = await fetch(`${this.baseUrl}${path}`, {
+        const headers: Record<string, string> = { 'Content-Type': 'application/json', ...(auth ? { 'X-API-Key': this.apiKey } : {}) };
+        const init: RequestInit = {
           method,
-          headers: { 'Content-Type': 'application/json', ...(auth ? { 'X-API-Key': this.apiKey } : {}) },
-          body: body === undefined ? undefined : JSON.stringify(body),
+          headers,
           signal: controller.signal,
-        });
+        };
+        if (body !== undefined) {
+          init.body = JSON.stringify(body);
+        }
+        const res = await fetch(`${this.baseUrl}${path}`, init);
         const text = await res.text();
         let json: unknown;
         try {
