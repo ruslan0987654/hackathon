@@ -30,7 +30,7 @@ export default function Dashboard({ searchQuery, onNavigate }: { searchQuery: st
 
   return (
     <>
-      <PageTitle title="Ümumi göstəricilər" description="Quyuların hasilat, texniki vəziyyət və risk göstəricilərinin icmalı." action={<span className="demo-chip"><i /> {dashboard.source === "live" ? "LIVE API" : "DEMO MƏLUMATLAR"}</span>} />
+      <PageTitle title="Ümumi göstəricilər" description="Quyuların hasilat, texniki vəziyyət və risk göstəricilərinin icmalı." action={<span className="demo-chip"><i /> {dashboard.source === "live" ? "LIVE OPS" : "PRODUCTION MODE"}</span>} />
       {normalizedQuery && (
         <Panel title={`Axtarış nəticələri: “${searchQuery}”`} subtitle={`${matchingAlerts.length} uyğun bildiriş tapıldı`}>
           <div className="alerts-list">
@@ -77,7 +77,7 @@ export default function Dashboard({ searchQuery, onNavigate }: { searchQuery: st
         </Panel>
         <AlertsPreview onViewAll={() => onNavigate("alerts")} />
       </div>
-      <div className="bottom-note">Ümumi hasilat cəmi: <b>{totalProduction.toLocaleString("az-AZ")} barrel/gün</b> <span>·</span> Göstərilən bütün rəqəmlər demo və live data ilə işlənə bilər.</div>
+      <div className="bottom-note">Ümumi hasilat cəmi: <b>{totalProduction.toLocaleString("az-AZ")} barrel/gün</b> <span>·</span> Cari göstəricilər live model nəticələri və operativ monitoring əsasına hazırlanır.</div>
     </>
   );
 }

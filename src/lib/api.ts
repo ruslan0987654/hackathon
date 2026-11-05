@@ -58,3 +58,29 @@ export async function fetchAnalytics() {
 export async function fetchAlerts() {
   return fetchJson<{ alerts: typeof alerts }>("/alerts", { alerts });
 }
+export async function createWell(payload: Partial<{ id: string; region: string; field: string; production: number; pressure: number; temperature: number; status: string; change: number; lastUpdated: string }>) {
+  const res = await fetch(`${API_BASE}/wells`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to create well: ${res.status}`);
+  }
+
+  return res.json() as Promise<{ well: typeof wells[number]; created: boolean }>;
+}
+
+export async function acknowledgeAlert(alertId: string) {
+  const res = await fetch(`${API_BASE}/alerts/${alertId}/acknowledge`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to acknowledge alert: ${res.status}`);
+  }
+
+  return res.json() as Promise<{ alertId: string; acknowledged: boolean }>;
+}

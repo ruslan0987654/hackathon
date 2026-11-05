@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BellRing, Check, CheckCheck } from "lucide-react";
 import PageTitle from "../components/PageTitle";
 import Panel from "../components/Panel";
-import { alerts as initialAlerts } from "../data/mockData";
+import { acknowledgeAlert, fetchAlerts } from "../lib/api";
 import type { AlertItem } from "../types";
 
 export default function Alerts({ searchQuery, onSearchChange }: { searchQuery: string; onSearchChange: (value: string) => void }) {
-  const [items, setItems] = useState<AlertItem[]>(initialAlerts);
+  const [items, setItems] = useState<AlertItem[]>([]);
   const [filter, setFilter] = useState("Hamısı");
   const normalizedQuery = searchQuery.trim().toLowerCase();
+
+  useEffect(() => {
+    void fetchAlerts().then(({ alerts }) => setItems(alerts));
+  }, []);
 
   const visible = items.filter((item) => {
     const haystack = [item.id, item.wellId, item.title, item.description, item.severity].join(" ").toLowerCase();
@@ -17,7 +21,10 @@ export default function Alerts({ searchQuery, onSearchChange }: { searchQuery: s
     return matchesQuery && matchesFilter;
   });
 
-  const acknowledge = (id: string) => setItems((current) => current.map((item) => item.id === id ? { ...item, acknowledged: true } : item));
+  const acknowledge = async (id: string) => {
+    await acknowledgeAlert(id);
+    setItems((current) => current.map((item) => item.id === id ? { ...item, acknowledged: true } : item));
+  };
   return (
     <>
       <PageTitle title="Xəbərdarlıqlar" description="Quyularda qeydə alınan qeyri-adi dəyişikliklər və tövsiyələr." action={<button className="secondary-button" onClick={() => setItems((current) => current.map((item) => ({ ...item, acknowledged: true })))}><CheckCheck size={16}/> Hamısını oxunmuş et</button>} />

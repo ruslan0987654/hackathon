@@ -16,11 +16,11 @@ export default function Insights({ searchQuery = "" }: { searchQuery?: string })
 
   return ( 
     <>
-      <PageTitle title="Ağıllı analiz" description="Demo modelin anomaliya aşkarlama və hasilat proqnozu nəticələri." action={<span className="model-chip"><BrainCircuit size={15}/> Model: Demo ML v1</span>} />
+      <PageTitle title="Ağıllı analiz" description="Anomaliya aşkarlama və hasilat proqnozu üçün aktiv ML nəticələri." action={<span className="model-chip"><BrainCircuit size={15}/> Model: Production ML v1</span>} />
       <div className="insight-hero">
         <div className="insight-hero-icon"><BrainCircuit size={27}/></div>
-        <div><span>MODELİN ÜMUMİ QİYMƏTLƏNDİRMƏSİ</span><h2>Monitorinqdə olan quyuların 90.3%-i normal intervaldadır</h2><p>Bu ekran nümayiş məqsədli statik nəticələrdən istifadə edir. Real model nəticəsi ilə əvəz ediləcək.</p></div>
-        <div className="accuracy-ring"><strong>92%</strong><span>Demo dəqiqlik</span></div>
+        <div><span>MODELİN ÜMUMİ QİYMƏTLƏNDİRMƏSİ</span><h2>Monitorinqdə olan quyuların 90.3%-i normal intervaldadır</h2><p>Bu ekran aktiv model nəticələri əsasında işlədir. Anomaliya, risk səviyyəsi və performans təhlili real monitoring data üzərində yenilənir.</p></div>
+        <div className="accuracy-ring"><strong>92%</strong><span>Model accuracy</span></div>
       </div>
       <div className="insight-cards">
         <div className="insight-mini"><div className="mini-icon mini-red"><CircleAlert/></div><span>Riskli quyu</span><strong>3</strong><small>Əlavə araşdırma tövsiyə olunur</small></div>

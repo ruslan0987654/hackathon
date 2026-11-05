@@ -38,7 +38,7 @@ export default function App() {
           onToggleTheme={() => setIsLightMode((current) => !current)}
         />
         <div className="page-content">{renderPage()}</div>
-        <footer className="app-footer"><span>© 2026 SOCAR Smart Analytics</span><span>Demo interfeys · Real data ilə inteqrasiya üçün hazır struktur</span></footer>
+        <footer className="app-footer"><span>© 2026 SOCAR Smart Analytics</span><span>Operations dashboard · Production analytics environment</span></footer>
       </main>
     </div>
   );

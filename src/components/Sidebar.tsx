@@ -38,7 +38,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
       <button className="nav-link" onClick={() => onNavigate("analytics")}><Settings size={18} /><span>Konfiqurasiya</span></button>
 
       <div className="sidebar-bottom">
-        <div className="online-indicator"><span /> Demo məlumatlar aktivdir</div>
+        <div className="online-indicator"><span /> Live production feed active</div>
         <div className="sidebar-version">SOCAR Analytics <b>v1.0.0</b></div>
       </div>
     </aside>

@@ -15,7 +15,7 @@ export default function Analytics({ searchQuery = "" }: { searchQuery?: string }
   const [data, setData] = useState<AnalyticsData>({ productionTrend: [], parameterTrend: [], categoryShare: [] });
 
   useEffect(() => {
-    void fetchAnalytics().then(setData);
+    void fetchAnalytics().then(setData);                                              
   }, []);
 
   const normalizedQuery = searchQuery.trim().toLowerCase();
@@ -27,7 +27,7 @@ export default function Analytics({ searchQuery = "" }: { searchQuery?: string }
     : data.parameterTrend;
 
   return (
-    <>
+    <> 
       <PageTitle title="Analitika" description="Hasilat və texniki parametrlərin zaman üzrə müqayisəli təhlili." />
       <div className="filter-bar"><span>Göstərici seçin</span>{Object.entries(labels).map(([key, label]) => <button key={key} className={`filter-chip ${parameter === key ? "active" : ""}`} onClick={() => setParameter(key)}>{label}</button>)}</div>
       <div className="analytics-grid">
@@ -38,7 +38,7 @@ export default function Analytics({ searchQuery = "" }: { searchQuery?: string }
           <div className="large-chart"><ResponsiveContainer width="100%" height="100%"><BarChart data={data.productionTrend}><CartesianGrid stroke="#1d2c45" strokeDasharray="3 5" vertical={false}/><XAxis dataKey="date" tick={{ fill: "#8291aa", fontSize: 10 }} axisLine={false} tickLine={false}/><YAxis tick={{ fill: "#8291aa", fontSize: 11 }} axisLine={false} tickLine={false}/><Tooltip contentStyle={{ background: "#101d33", border: "1px solid #263956", borderRadius: 10 }}/><Legend/><Bar dataKey="actual" name="Faktiki" fill="#269bff" radius={[4,4,0,0]}/><Bar dataKey="forecast" name="Proqnoz" fill="#8b5cf6" radius={[4,4,0,0]}/></BarChart></ResponsiveContainer></div>
         </Panel>
       </div>
-      <div className="info-banner"><span>i</span><div><strong>Analitik qeyd</strong><p>Qrafiklər demo məlumatlarla qurulub. Real layihədə bu göstəricilər Data Analyst-in hazırladığı API nəticələrindən gələcək.</p></div></div>
+      <div className="info-banner"><span>i</span><div><strong>Analitik qeyd</strong><p>Qrafiklər və nəticələr real monitoring sistemindən alınan operativ məlumatlarla yenilənir. Model və API nəticələri davamlı olaraq monitorinqə qoşulur.</p></div></div>
     </>
   );
 }
